@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { SignInButtons } from "@/components/auth/sign-in-buttons";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/lib/state/auth-store";
+import { useAuthModalStore } from "@/lib/state/auth-modal-store";
 
 const landingHighlights = [
   {
@@ -26,6 +26,7 @@ const landingHighlights = [
 
 export function LandingContent() {
   const user = useAuthStore((state) => state.user);
+  const openModal = useAuthModalStore((state) => state.openModal);
 
   return (
     <main className="flex flex-col items-center gap-10 py-24 px-6 text-center">
@@ -49,7 +50,10 @@ export function LandingContent() {
           </Link>
         </Button>
       ) : (
-        <SignInButtons />
+        <Button size="lg" variant="outline" onClick={openModal} className="inline-flex items-center gap-2">
+          Sign in
+          <ArrowRight className="size-4" />
+        </Button>
       )}
       <div className="max-w-3xl text-left grid gap-6 sm:grid-cols-3">
         {landingHighlights.map((item) => (

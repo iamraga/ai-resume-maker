@@ -4,22 +4,41 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useResumeStore } from "@/lib/state/resume-store";
+import { cn } from "@/lib/utils";
 
-export function ResumePreview() {
+export function ResumePreview({ className, bare = false }) {
   const resume = useResumeStore((state) => state.resume);
+  const Wrapper = bare ? "div" : Card;
 
   return (
-    <Card className="h-full overflow-hidden">
-      <CardHeader>
-        <CardTitle className="text-xl font-semibold">{resume.basics.fullName || "Your Name"}</CardTitle>
-        <p className="text-sm text-muted-foreground">{resume.basics.headline || "Professional Headline"}</p>
+    <Wrapper
+      className={cn(
+        "flex h-full flex-col overflow-hidden",
+        bare ? "rounded-xl border bg-card" : "",
+        className
+      )}
+    >
+      <CardHeader className={bare ? "px-4 py-3" : undefined}>
+        <CardTitle className="text-xl font-semibold">
+          {resume.basics.fullName || "Your Name"}
+        </CardTitle>
+        <p className="text-sm text-muted-foreground">
+          {resume.basics.headline || "Professional Headline"}
+        </p>
         <p className="text-xs text-muted-foreground">
-          {resume.basics.email || "you@email.com"} · {resume.basics.location || "City, Country"}
+          {resume.basics.email || "you@email.com"} ·{" "}
+          {resume.basics.location || "City, Country"}
         </p>
       </CardHeader>
-      <CardContent className="p-0">
-        <ScrollArea className="h-[70vh] px-6 py-4">
-          <Section title="Summary" items={[resume.basics.summary || "Use the AI assistant to craft a concise summary."]} />
+      <CardContent className={cn("flex-1 p-0", bare && "px-0 py-0")}>
+        <ScrollArea className="h-full px-6 py-4">
+          <Section
+            title="Summary"
+            items={[
+              resume.basics.summary ||
+                "Use the AI assistant to craft a concise summary.",
+            ]}
+          />
           <Section
             title="Experience"
             items={
@@ -93,7 +112,7 @@ export function ResumePreview() {
           ) : null}
         </ScrollArea>
       </CardContent>
-    </Card>
+    </Wrapper>
   );
 }
 

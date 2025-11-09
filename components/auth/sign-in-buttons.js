@@ -7,16 +7,17 @@ import { toast } from "sonner";
 
 const providers = [
   { id: "google", label: "Continue with Google" },
-  { id: "github", label: "Continue with GitHub" },
+  // GitHub auth is configured but intentionally hidden until required.
 ];
 
-export function SignInButtons() {
+export function SignInButtons({ onSuccess }) {
   const [loadingProvider, setLoadingProvider] = useState(null);
 
   async function handleSignIn(providerId) {
     setLoadingProvider(providerId);
     try {
       await signInWithProvider(providerId);
+      onSuccess?.();
       toast.success("Signed in successfully");
     } catch (error) {
       console.error("sign-in failed", error);

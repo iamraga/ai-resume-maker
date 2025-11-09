@@ -1,11 +1,14 @@
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
+import { RequireAuth } from "@/components/auth/require-auth";
 
 export default function DashboardPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <div className="px-6">
-        <DashboardShell />
+    <RequireAuth>
+      <div className="min-h-screen bg-background">
+        <div className="px-6">
+          <DashboardShell />
+        </div>
       </div>
-    </div>
+    </RequireAuth>
   );
 }
